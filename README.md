@@ -13,3 +13,6 @@ Análise, Refactoring e Análise do projeto UmCarroJá.
 ### Documentação
 - [Enunciado](./projeto.pdf)
 - [Lista de Tarefas](-/../tarefas.md)
+
+### Outros
+- [Fichas](./entregas)
