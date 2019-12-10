@@ -3,7 +3,6 @@ Análise, Refactoring e Análise do projeto UmCarroJá.
 
 ### Ferramentas
 - IntelIJ
-  - JStanley *(optional)*
   - JUnit
   - EvoSuite
 - SonarQube
