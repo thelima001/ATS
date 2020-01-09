@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 class Weather {
+    private Random random = new Random();
     private static final String[] seasons = {
             "Winter", "Winter",
             "Spring", "Spring", "Spring",

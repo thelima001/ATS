@@ -51,7 +51,8 @@ public class Car implements Serializable {
         hybrid,
         any;
 
-        public boolean equals(CarType a) {
+
+        public boolean equalsCar(CarType a) {
             return a == this || a == any;
         }
 
@@ -218,6 +219,13 @@ public class Car implements Serializable {
                 && this.type == car.type
                 && this.position.equals(car.position)
                 && this.historic.equals(car.historic);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + this.rating;
+        return result;
     }
 
     @Override

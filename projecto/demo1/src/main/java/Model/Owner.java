@@ -77,5 +77,12 @@ public class Owner extends User {
                 && this.pending.equals(owner.pending)
                 && this.historic.equals(owner.historic);
     }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = (int) (31 * result + this.serialVersionUID);
+        return result;
+    }
 }
 

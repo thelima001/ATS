@@ -155,4 +155,11 @@ public class Rental implements Serializable {
                 && this.end.equals(rental.end)
                 && this.date.equals(rental.date);
     }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = (int) (31 * result + this.realPrice);
+        return result;
+    }
 }
