@@ -18,19 +18,19 @@ class Weather {
     }
 
     public double getSeasonDelay() {
-        Random a = new Random();
+
         switch (getSeason()){
             case "Summer":
-                return a.nextDouble() % 0.1;
+                return this.random.nextDouble() % 0.1;
 
             case "Spring":
-                return a.nextDouble() % 0.3;
+                return this.random.nextDouble() % 0.3;
 
             case "Fall":
-                return a.nextDouble() % 0.35;
+                return this.random.nextDouble() % 0.35;
 
             default:
-                return a.nextDouble() % 0.6;
+                return this.random.nextDouble() % 0.6;
         }
     }
 }

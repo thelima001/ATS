@@ -240,27 +240,38 @@ public class UMCarroJa implements Serializable {
         return this.rentals.getRentalListClient(client);
     }
 
+
     public void save(String fName) throws IOException {
-        FileOutputStream a = new FileOutputStream(fName);
-        ObjectOutputStream r = new ObjectOutputStream(a);
+        FileOutputStream a = null;
+        ObjectOutputStream r = null;
 
         try{
+            a = new FileOutputStream(fName);
+            r = new ObjectOutputStream(a);
             r.writeObject(this);
             r.flush();
         }finally {
-            r.close();
+            if(r!=null)r.close();
+            if(a!=null)a.close();
         }
 
 
     }
 
+
     public static UMCarroJa read(String fName) throws IOException, ClassNotFoundException {
-        FileInputStream r = new FileInputStream(fName);
-        ObjectInputStream a = new ObjectInputStream(r);
-        UMCarroJa u = (UMCarroJa) a.readObject();
-        try{ } finally {
-            a.close();
-            return u;
+        FileInputStream r = null;
+        ObjectInputStream a = null;
+        UMCarroJa u = null;
+        try{
+            r = new FileInputStream(fName);
+            a = new ObjectInputStream(r);
+            u = (UMCarroJa) a.readObject();
+        } finally {
+            if(a!=null) a.close();
+            if(r!= null) r.close();
+
         }
+        return u;
     }
 }
