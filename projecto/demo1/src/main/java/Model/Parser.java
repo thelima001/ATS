@@ -4,6 +4,8 @@ import Exceptions.*;
 import Utils.Point;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class Parser {
     private List<String> file;
-
+    private static final Logger LOGGER = Logger.getLogger(Parser.class.getName());
     public Parser() {
         this.file = new ArrayList<>();
     }
@@ -29,7 +31,7 @@ public class Parser {
                     .map(e -> this.parseLine(e, model))
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Exception occured:", e);
         }
     }
 
