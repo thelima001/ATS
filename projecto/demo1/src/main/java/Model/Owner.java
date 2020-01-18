@@ -62,7 +62,7 @@ public class Owner extends User {
         return new ArrayList<>(this.cars);
     }
 
-    public Owner clone() {
+    public Owner copy() {
         return new Owner(this);
     }
 

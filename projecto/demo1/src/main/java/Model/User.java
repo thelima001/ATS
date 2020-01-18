@@ -69,7 +69,9 @@ public abstract class User implements Serializable {
         this.rating += rating;
     }
 
-    public abstract User clone();
+    public User copy(){
+        return new User(this);
+    }
 
     @Override
     public boolean equals(Object o) {

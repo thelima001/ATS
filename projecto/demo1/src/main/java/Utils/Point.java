@@ -20,7 +20,7 @@ public class Point implements Serializable {
         return y;
     }
 
-    public Point clone() {
+    public Point copy() {
         return new Point(this.x, this.y);
     }
 

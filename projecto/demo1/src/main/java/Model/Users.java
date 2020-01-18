@@ -18,7 +18,7 @@ class Users implements Serializable {
     }
 
     void addUser(User u) throws UserExistsException {
-        if(this.userBase.putIfAbsent(u.getEmail(), u.clone()) != null)
+        if(this.userBase.putIfAbsent(u.getEmail(), u.copy()) != null)
             throw new UserExistsException();
     }
 

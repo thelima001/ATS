@@ -17,12 +17,12 @@ public class Client extends User {
     }
 
     Point getPos() {
-        return this.pos.clone();
+        return this.pos.copy();
     }
 
     private Client(Client u) {
         super(u);
-        this.pos = u.getPos().clone();
+        this.pos = u.getPos().copy();
         this.pendingRates = new ArrayList<>(u.pendingRates);
     }
 
@@ -39,7 +39,7 @@ public class Client extends User {
         this.pos = pos;
     }
 
-    public Client clone() {
+    public Client copy() {
         return new Client(this);
     }
 

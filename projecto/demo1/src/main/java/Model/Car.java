@@ -66,8 +66,9 @@ public class Car implements Serializable {
                     return CarType.hybrid;
                 case "Todos":
                     return CarType.any;
-                }
-            throw new UnknownCarTypeException();
+                default:
+                    throw new UnknownCarTypeException();
+            }
         }
     }
 
@@ -187,7 +188,7 @@ public class Car implements Serializable {
         this.historic.add(r);
     }
 
-    public Car clone() {
+    public Car copy() {
         return new Car(this);
     }
 

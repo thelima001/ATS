@@ -158,7 +158,7 @@ public class UMCarroJa implements Serializable {
     }
 
     public void addUser(User a) throws UserExistsException {
-        this.users.addUser(a.clone());
+        this.users.addUser(a.copy());
     }
 
     public void refil(Owner ownerCar, int index) {
