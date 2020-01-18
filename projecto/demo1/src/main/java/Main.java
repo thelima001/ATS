@@ -1,6 +1,6 @@
-import Controller.Controller;
-import Model.Parser;
-import Model.UMCarroJa;
+import controller.Controller;
+import model.Parser;
+import model.UMCarroJa;
 
 import java.io.IOException;
 
