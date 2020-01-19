@@ -46,27 +46,29 @@ public class Car implements Serializable {
     }
 
     public enum CarType {
-        electric,
-        gas,
-        hybrid,
-        any;
+        ELECTRIC,
+        GAS,
+        HYBRID,
+        ANY;
 
         public boolean equalsCar(CarType a) {
-            return a == this || a == any;
+            return a == this || a == ANY;
         }
 
         public static CarType fromString(String s) throws UnknownCarTypeException {
             switch (s) {
                 case "Electrico":
-                    return CarType.electric;
+                    return CarType.ELECTRIC;
                 case "Gasolina":
-                    return CarType.gas;
+                    return CarType.GAS;
                 case "Hibrido":
-                    return CarType.hybrid;
+                    return CarType.HYBRID;
                 case "Todos":
-                    return CarType.any;
+                    return CarType.ANY;
+
+                default:
+                	throw new UnknownCarTypeException();
                 }
-            throw new UnknownCarTypeException();
         }
     }
 
@@ -135,7 +137,7 @@ public class Car implements Serializable {
     boolean isAvailable() {
         return this.isAvailable;
     }
-
+    
     Car(String numberPlate, Owner owner, CarType type,
             double avgSpeed, double basePrice, double gasMileage, int range, Point pos, String brand) {
         this.numberPlate = numberPlate;
@@ -185,7 +187,7 @@ public class Car implements Serializable {
         this.historic.add(r);
     }
 
-    public Car clone() {
+    public Car copy() {
         return new Car(this);
     }
 

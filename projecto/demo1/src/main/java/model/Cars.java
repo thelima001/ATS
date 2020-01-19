@@ -23,7 +23,7 @@ public class Cars implements Serializable {
                 .values()
                 .stream()
                 .collect(Collectors
-                        .toMap(Car::getNumberPlate, Car::clone));
+                        .toMap(Car::getNumberPlate, Car::copy));
     }
 
     /**
@@ -55,7 +55,7 @@ public class Cars implements Serializable {
      * Clona um objeto da classe Model.Cars
      * @return Clone do objeto
      */
-    public Cars clone() {
+    public Cars copy() {
         return new Cars(this);
     }
 
@@ -65,12 +65,12 @@ public class Cars implements Serializable {
      * @param b Tipo a procurar
      * @return Lista dos carros
      */
-    public ArrayList<Car> listOfCarType(Car.CarType b) {
+    public List<Car> listOfCarType(Car.CarType b) {
         return this.carBase
                 .values()
                 .stream()
                 .filter(e -> e.getType().equals(b))
-                .map(Car::clone)
+                .map(Car::copy)
                 .collect(Collectors
                         .toCollection(ArrayList::new));
     }

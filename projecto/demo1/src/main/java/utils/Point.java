@@ -11,7 +11,12 @@ public class Point implements Serializable {
         this.x = x;
         this.y = y;
     }
-
+    
+    public Point(Point p) {
+    	this.x = p.getX();
+    	this.y = p.getY();
+    }
+    
     private Double getX() {
         return this.x;
     }
@@ -20,7 +25,7 @@ public class Point implements Serializable {
         return y;
     }
 
-    public Point clone() {
+    public Point makeCopy() {
         return new Point(this.x, this.y);
     }
 

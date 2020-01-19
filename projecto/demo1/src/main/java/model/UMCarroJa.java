@@ -162,7 +162,7 @@ public class UMCarroJa implements Serializable {
     }
 
     public void addUser(User a) throws UserExistsException {
-        this.users.addUser(a.clone());
+        this.users.addUser(a.makeCopy());
     }
 
     public void refil(Owner ownerCar, int index) {
@@ -246,40 +246,17 @@ public class UMCarroJa implements Serializable {
     }
 
     public void save(String fName) throws IOException {
-        FileOutputStream a = null;
-        ObjectOutputStream r = null;
 
-        try{
-            a = new FileOutputStream(fName);
-            r = new ObjectOutputStream(a);
+        try(FileOutputStream a = new FileOutputStream(fName); ObjectOutputStream r = new ObjectOutputStream(a)){
             r.writeObject(this);
             r.flush();
-        }finally {
-            if(r!=null) {
-				r.close();
-			}
-            if(a!=null) {
-				a.close();
-			}
         }
     }
 
     public static UMCarroJa read(String fName) throws IOException, ClassNotFoundException {
-        FileInputStream r = null;
-        ObjectInputStream a = null;
-        UMCarroJa u = null;
-        try{
-            r = new FileInputStream(fName);
-            a = new ObjectInputStream(r);
-            u = (UMCarroJa) a.readObject();
-        } finally {
-            if(a!=null) {
-				a.close();
-			}
-            if(r!= null) {
-				r.close();
-			}
-        }
-        return u;
+
+        try(FileInputStream r = new FileInputStream(fName); ObjectInputStream a = new ObjectInputStream(r); ){
+            return (UMCarroJa) a.readObject();
+        } 
     }
 }

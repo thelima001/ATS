@@ -27,7 +27,7 @@ public class Owner extends User {
         }
     }
 
-    public ArrayList<Rental> getPending() {
+    public List<Rental> getPending() {
         return new ArrayList<>(this.pending);
     }
 
@@ -62,7 +62,7 @@ public class Owner extends User {
         return new ArrayList<>(this.cars);
     }
 
-    public Owner clone() {
+    public Owner makeCopy() {
         return new Owner(this);
     }
 
@@ -85,6 +85,6 @@ public class Owner extends User {
     @Override
     public int hashCode() {
         int result = 17;
-        return (int) (31 * result + this.serialVersionUID);
+        return (int) (31 * result + serialVersionUID);
     }
 }

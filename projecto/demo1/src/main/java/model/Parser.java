@@ -87,15 +87,13 @@ public class Parser {
                     if (content.length != 5) {
 						break;
 					}
-                    try {
-                        model.rental(content[0] + "@gmail.com",
-                                new Point(Double.parseDouble(content[1])
-                                        , Double.parseDouble(content[2])),
-                                content[4], Car
-                                        .CarType
-                                        .fromString(content[3]));
-                    } catch (NoCarAvaliableException ignored) {
-                    }
+                    
+        	    	model.rental(content[0] + "@gmail.com",
+        	                new Point(Double.parseDouble(content[1])
+        	                        , Double.parseDouble(content[2])),
+        	                content[4], Car
+        	                        .CarType
+        	                        .fromString(content[3]));
                     break;
                 case "Classificar":
                     if (content.length != 2) {
@@ -103,6 +101,9 @@ public class Parser {
 					}
                     model.rate(content[0], Integer.parseInt(content[1]));
                     break;
+                    
+                default:
+                	break;
             }
         }
         catch (InvalidUserException
@@ -110,6 +111,7 @@ public class Parser {
                 | CarExistsException
                 | UnknownCarTypeException
                 | UnknownCompareTypeException
+                | NoCarAvaliableException
                 | InvalidCarException ignored) {}
         return l;
     }

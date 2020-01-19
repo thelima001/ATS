@@ -17,12 +17,12 @@ public class Client extends User {
     }
 
     Point getPos() {
-        return this.pos.clone();
+        return this.pos.makeCopy();
     }
 
     private Client(Client u) {
         super(u);
-        this.pos = u.getPos().clone();
+        this.pos = u.getPos().makeCopy();
         this.pendingRates = new ArrayList<>(u.pendingRates);
     }
 
@@ -39,7 +39,7 @@ public class Client extends User {
         this.pos = pos;
     }
 
-    public Client clone() {
+    public Client makeCopy() {
         return new Client(this);
     }
 
@@ -65,6 +65,6 @@ public class Client extends User {
     @Override
     public int hashCode() {
         int result = 17;
-        return (int) (31 * result + this.serialVersionUID);
+        return (int) (31 * result + serialVersionUID);
     }
 }

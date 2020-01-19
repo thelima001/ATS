@@ -10,7 +10,7 @@ class Rentals implements Serializable {
     private static final long serialVersionUID = 1526373866446179937L;
     private final List<Rental> rentalBase;
 
-    private static int id;
+    private int id;
 
     Rentals() {
         this.rentalBase = new ArrayList<>();
