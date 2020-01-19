@@ -1,5 +1,5 @@
 #### Tarefa 1 - Qualidade do Código Fonte da Aplicação UmCarroJá
-##### [Status: **Not Done**]
+##### [Status: **Done**]
 
 Nesta tarefa os alunos irão utilizar sistemas como o sonarQube, IDEs do Java, etc para analisar a qualidade do código da aplicação desenvolvida pelos alunos de POO. Métricas de software serão também utilizadas para encontrar bad smells. Tarefa Extra: Deﬁnir regras no sonarqube para identiﬁcar red smells (ou qualquer outro smell não suportado pelo sonarQube) numa aplicação Java.
 
@@ -7,10 +7,14 @@ Nesta tarefa os alunos irão utilizar sistemas como o sonarQube, IDEs do Java, e
 - SonarQube
 - IntelIJ
 
+#### Completo
+- Análise
+- Red Smell [StringBuilder in toString()]
+
 ---
 
 #### Tarefa 2 - Refactoring da Aplicação UmCarroJá
-##### [Status: **Not Done**]
+##### [Status: **Done*]
 
 Nesta tarefa serão utilizadas ferramentas como o autorefactor, IDEs do Java que suportam
 refactoring, ou o jStanley para identificar e eliminar os bad smells e red smells existentes no
@@ -19,6 +23,9 @@ Um estudo detalhado sobre os smells encontrados na(s) aplicação(ões) fornecid
 
 #### Ferramentas:
 - Autorefactor do IntelIJ ou JStanley
+
+#### Completo:
+- AutoRefactor com IntelIJ + manual
 
 ---
 
