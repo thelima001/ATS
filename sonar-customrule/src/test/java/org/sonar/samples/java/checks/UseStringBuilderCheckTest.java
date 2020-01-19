@@ -7,8 +7,6 @@ public class UseStringBuilderCheckTest {
 
     @Test
     public void test() {
-        UseStringBuilderCheck a =  new UseStringBuilderCheck();
-        a.nodesToVisit();
         JavaCheckVerifier.verify("src/test/files/UseStringBuilderCheck.java", new UseStringBuilderCheck());
     }
 }
