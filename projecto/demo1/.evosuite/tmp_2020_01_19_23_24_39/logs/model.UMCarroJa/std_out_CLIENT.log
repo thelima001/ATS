@@ -1,0 +1,84 @@
+* Starting client
+* Connecting to master process on port 14400
+* Analyzing classpath: 
+  - /home/paulo/Desktop/ATS/grupo/ATS/projecto/demo1/target/classes
+  - /home/paulo/Desktop/ATS/grupo/ATS/projecto/demo1/target/test-classes
+  - /home/paulo/Desktop/ATS/grupo/ATS/projecto/demo1/target/classes
+  - /home/paulo/.m2/repository/junit/junit/4.12/junit-4.12.jar
+  - /home/paulo/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+  - /home/paulo/.m2/repository/org/junit/jupiter/junit-jupiter/5.4.2/junit-jupiter-5.4.2.jar
+  - /home/paulo/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.4.2/junit-jupiter-params-5.4.2.jar
+  - /home/paulo/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.4.2/junit-jupiter-engine-5.4.2.jar
+  - /home/paulo/.m2/repository/org/junit/platform/junit-platform-engine/1.4.2/junit-platform-engine-1.4.2.jar
+  - /home/paulo/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.4.2/junit-jupiter-api-5.4.2.jar
+  - /home/paulo/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar
+  - /home/paulo/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar
+  - /home/paulo/.m2/repository/org/junit/platform/junit-platform-commons/1.4.2/junit-platform-commons-1.4.2.jar
+* Finished analyzing classpath
+* Generating tests for class model.UMCarroJa
+* Test criteria:
+  - Line Coverage
+  - Branch Coverage
+  - Exception
+  - Mutation testing (weak)
+  - Method-Output Coverage
+  - Top-Level Method Coverage
+  - No-Exception Top-Level Method Coverage
+  - Context Branch Coverage
+* Setting up search algorithm for whole suite generation
+* Loaded 96 tests from /home/paulo/Desktop/ATS/grupo/ATS/projecto/demo1/.evosuite/evosuite-seeds/model.UMCarroJa.seed
+* Total number of test goals: 
+  - Line 115
+  - Branch 31
+  - Exception 0
+  - MutationFactory 80
+  - Output 62
+  - Method 29
+  - MethodNoException 29
+  - CBranchFitnessFactory 31
+* Using seed 1579476281815
+* Starting evolution
+* Search finished after 96s and 631 generations, 225206 statements, best individual has fitness: 38.94984801300219
+* Writing sequences to pool
+* Minimizing test suite
+* Going to analyze the coverage criteria
+* Coverage analysis for criterion LINE
+* Coverage of criterion LINE: 89%
+* Total number of goals: 115
+* Number of covered goals: 102
+* Coverage analysis for criterion BRANCH
+* Coverage of criterion BRANCH: 100%
+* Total number of goals: 31
+* Number of covered goals: 31
+* Coverage analysis for criterion EXCEPTION
+* Coverage of criterion EXCEPTION: 100%
+* Total number of goals: 46
+* Number of covered goals: 46
+* Coverage analysis for criterion WEAKMUTATION
+* Coverage of criterion WEAKMUTATION: 95%
+* Total number of goals: 80
+* Number of covered goals: 76
+* Coverage analysis for criterion OUTPUT
+* Coverage of criterion OUTPUT: 52%
+* Total number of goals: 62
+* Number of covered goals: 32
+* Coverage analysis for criterion METHOD
+* Coverage of criterion METHOD: 100%
+* Total number of goals: 29
+* Number of covered goals: 29
+* Coverage analysis for criterion METHODNOEXCEPTION
+* Coverage of criterion METHODNOEXCEPTION: 86%
+* Total number of goals: 29
+* Number of covered goals: 25
+* Coverage analysis for criterion CBRANCH
+* Coverage of criterion CBRANCH: 100%
+* Total number of goals: 31
+* Number of covered goals: 31
+* Generated 76 tests with total length 380
+* Resulting test suite's coverage: 90% (average coverage for all fitness functions)
+* Generating assertions
+* Resulting test suite's mutation score: 28%
+* Compiling and checking tests
+* Writing JUnit test case 'UMCarroJa_ESTest' to /home/paulo/Desktop/ATS/grupo/ATS/projecto/demo1/.evosuite/tmp_2020_01_19_23_24_39/tests
+* Done!
+

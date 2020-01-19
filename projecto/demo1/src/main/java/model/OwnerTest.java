@@ -1,4 +1,4 @@
-package Tests;
+package model;
 
 import model.Car;
 import model.Client;
@@ -17,7 +17,7 @@ class OwnerTest {
     Point dest = new Point(100.00,100.00);
     Point pos = new Point(0.0,0.0);
     Client client = new Client(pos, "k@k.pt", "k", "k", "k", 123456789);
-    Car car = new Car("123456789", owner, Car.CarType.gas, 50.00, 10.00, 100.00, 5, pos, "KIA");
+    Car car = new Car("123456789", owner, Car.CarType.GAS, 50.00, 10.00, 100.00, 5, pos, "KIA");
     Rental rent = new Rental(car, client, dest);
 
     @Test

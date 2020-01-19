@@ -1,4 +1,4 @@
-package Tests;
+package model;
 
 import exceptions.CarExistsException;
 import exceptions.InvalidCarException;
@@ -8,7 +8,9 @@ import model.*;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import utils.Point;
-
+import model.Car;
+import model.Cars;
+import model.Owner;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CarsTest {
@@ -17,7 +19,7 @@ class CarsTest {
     Point dest = new Point(100.00,100.00);
     Point pos = new Point(0.0,0.0);
     Client client = new Client(pos, "k@k.pt", "k", "k", "k", 123456789);
-    Car car = new Car("123456789", owner, Car.CarType.gas, 50.00, 10.00, 100.00, 5, pos, "KIA");
+    Car car = new Car("123456789", owner, Car.CarType.GAS, 50.00, 10.00, 100.00, 5, pos, "KIA");
     Rental rent = new Rental(car, client, dest);
 
     @Test

@@ -1,4 +1,4 @@
-package Tests;
+package model;
 
 import model.Car;
 import model.Owner;
@@ -12,7 +12,7 @@ class CarTest {
     Point pos = new Point(0.0,0.0);
     Point dest = new Point(100.00,100.00);
     Owner owner =  new Owner("teste@teste.pt", "teste", "teste", 123456789, "teste");
-    Car car = new Car("123456789", owner, Car.CarType.gas, 50.00, 10.00, 100.00, 5, pos, "KIA");
+    Car car = new Car("123456789", owner, Car.CarType.GAS, 50.00, 10.00, 100.00, 5, pos, "KIA");
 
 
     @Test
