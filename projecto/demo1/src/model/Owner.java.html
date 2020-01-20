@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Owner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Owner.java</span></div><h1>Owner.java</h1><pre class="source lang-java linenums">package model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Owner extends User {
+    private static final long serialVersionUID = -2511785557930475729L;
+    private List&lt;Car&gt; cars;
+    private List&lt;Rental&gt; pending;
+    private List&lt;Rental&gt; historic;
+
+    public Owner(String email, String name, String address, int nif, String passwd) {
+<span class="fc" id="L14">        super(email, name, address, nif, passwd);</span>
+<span class="fc" id="L15">        this.cars = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L16">        this.pending = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">        this.historic = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L18">    }</span>
+
+    private Owner(User u) {
+<span class="nc" id="L21">        super(u);</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (u instanceof Owner) {</span>
+<span class="nc" id="L23">            Owner o = (Owner) u;</span>
+<span class="nc" id="L24">            this.cars = o.getCars();</span>
+<span class="nc" id="L25">            this.pending = new ArrayList&lt;&gt;(o.pending);</span>
+<span class="nc" id="L26">            this.historic = new ArrayList&lt;&gt;(o.historic);</span>
+        }
+<span class="nc" id="L28">    }</span>
+
+    public List&lt;Rental&gt; getPending() {
+<span class="fc" id="L31">        return new ArrayList&lt;&gt;(this.pending);</span>
+    }
+
+    void addPendingRental(Rental r) {
+<span class="fc" id="L35">        this.pending.add(r);</span>
+<span class="fc" id="L36">    }</span>
+
+    void refuse(Rental r){
+<span class="fc" id="L39">        this.pending.remove(r);</span>
+<span class="fc" id="L40">    }</span>
+
+    void accept(Rental r) {
+<span class="fc" id="L43">        refuse(r);</span>
+<span class="fc" id="L44">        this.pending = this.pending.stream()</span>
+<span class="pc" id="L45">                .filter(e -&gt; e</span>
+<span class="nc" id="L46">                        .getCarID()</span>
+<span class="nc" id="L47">                        .equals(r.getCarID()))</span>
+<span class="fc" id="L48">                .collect(Collectors.toList());</span>
+<span class="fc" id="L49">        this.historic.add(r);</span>
+<span class="fc" id="L50">    }</span>
+
+    void rate(Rental r, int clientRate) {
+<span class="nc" id="L53">        r.rate(clientRate);</span>
+<span class="nc" id="L54">        this.historic.remove(r);</span>
+<span class="nc" id="L55">    }</span>
+
+    void addCar(Car a) {
+<span class="fc" id="L58">        this.cars.add(a);</span>
+<span class="fc" id="L59">    }</span>
+
+    public List&lt;Car&gt; getCars() {
+<span class="fc" id="L62">        return new ArrayList&lt;&gt;(this.cars);</span>
+    }
+
+    public Owner makeCopy() {
+<span class="nc" id="L66">        return new Owner(this);</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L72">			return true;</span>
+		}
+
+<span class="nc bnc" id="L75" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L76">			return false;</span>
+		}
+
+<span class="nc" id="L79">        Owner owner = (Owner) o;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        return this.cars.equals(owner.cars)</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">                &amp;&amp; this.pending.equals(owner.pending)</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                &amp;&amp; this.historic.equals(owner.historic);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L87">        int result = 17;</span>
+<span class="nc" id="L88">        return (int) (31 * result + serialVersionUID);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

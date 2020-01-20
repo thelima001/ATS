@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package model;
+
+import java.io.Serializable;
+
+public abstract class User implements Serializable {
+    private static final long serialVersionUID = 8140329421867679989L;
+    private final String email;
+    private final String passwd;
+    private final String name;
+    private final String address;
+    private final int nif;
+    private int rating;
+    private int nRatings;
+
+<span class="fc" id="L15">    User(String email, String name, String address, int nif, String passwd) {</span>
+<span class="fc" id="L16">        this.email = email;</span>
+<span class="fc" id="L17">        this.name = name;</span>
+<span class="fc" id="L18">        this.address = address;</span>
+<span class="fc" id="L19">        this.nif = nif;</span>
+<span class="fc" id="L20">        this.passwd = passwd;</span>
+<span class="fc" id="L21">        this.rating = 0;</span>
+<span class="fc" id="L22">        this.nRatings = 0;</span>
+<span class="fc" id="L23">    }</span>
+
+<span class="nc" id="L25">    User(User u) {</span>
+<span class="nc" id="L26">        this.email = u.getEmail();</span>
+<span class="nc" id="L27">        this.name = u.getName();</span>
+<span class="nc" id="L28">        this.address = u.getAddress();</span>
+<span class="nc" id="L29">        this.nif = u.getNif();</span>
+<span class="nc" id="L30">        this.passwd = u.getPasswd();</span>
+<span class="nc" id="L31">        this.rating = u.getRating();</span>
+<span class="nc" id="L32">        this.nRatings = u.getNRatings();</span>
+<span class="nc" id="L33">   }</span>
+
+    private int getNRatings() {
+<span class="nc" id="L36">        return this.nRatings;</span>
+    }
+
+    private int getRating() {
+<span class="nc" id="L40">        return this.rating;</span>
+    }
+
+    String getPasswd() {
+<span class="nc" id="L44">        return this.passwd;</span>
+    }
+
+    public int getRates() {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        return (this.nRatings == 0)? 100 : (this.rating / this.nRatings);</span>
+    }
+
+    private int getNif() {
+<span class="nc" id="L52">        return this.nif;</span>
+    }
+
+    private String getName() {
+<span class="nc" id="L56">        return this.name;</span>
+    }
+
+    private String getAddress() {
+<span class="nc" id="L60">        return this.address;</span>
+    }
+
+    String getEmail() {
+<span class="fc" id="L64">        return this.email;</span>
+    }
+
+    void rate(int rating) {
+<span class="fc" id="L68">        this.nRatings++;</span>
+<span class="fc" id="L69">        this.rating += rating;</span>
+<span class="fc" id="L70">    }</span>
+
+    public abstract User makeCopy();
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L77">			return true;</span>
+		}
+
+<span class="nc bnc" id="L80" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L81">			return false;</span>
+		}
+
+<span class="nc" id="L84">        User user = (User) o;</span>
+<span class="nc bnc" id="L85" title="All 6 branches missed.">        return this.nif == user.nif</span>
+                &amp;&amp; this.rating == user.rating
+                &amp;&amp; this.nRatings == user.nRatings
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                &amp;&amp; this.email.equals(user.email)</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                &amp;&amp; this.passwd.equals(user.passwd)</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                &amp;&amp; this.name.equals(user.name)</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                &amp;&amp; this.address.equals(user.address);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L96">        int result = 17;</span>
+<span class="nc" id="L97">        return 31 * result + this.rating;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

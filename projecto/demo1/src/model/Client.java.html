@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Client.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Client.java</span></div><h1>Client.java</h1><pre class="source lang-java linenums">package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import utils.Point;
+
+public class Client extends User {
+    private static final long serialVersionUID = 6476239603804875239L;
+    private Point pos;
+    private final List&lt;Rental&gt; pendingRates;
+
+    public Client(Point pos, String email, String passwd, String name, String address, int nif) {
+<span class="fc" id="L14">        super(email, name, address, nif, passwd);</span>
+<span class="fc" id="L15">        this.pos = pos;</span>
+<span class="fc" id="L16">        this.pendingRates = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">    }</span>
+
+    Point getPos() {
+<span class="nc" id="L20">        return this.pos.makeCopy();</span>
+    }
+
+    private Client(Client u) {
+<span class="nc" id="L24">        super(u);</span>
+<span class="nc" id="L25">        this.pos = u.getPos().makeCopy();</span>
+<span class="nc" id="L26">        this.pendingRates = new ArrayList&lt;&gt;(u.pendingRates);</span>
+<span class="nc" id="L27">    }</span>
+
+    void addPendingRental(Rental r) {
+<span class="fc" id="L30">        this.pendingRates.add(r);</span>
+<span class="fc" id="L31">    }</span>
+
+    public void rate(Rental r, int ratingCar, int ratingOwner) {
+<span class="fc" id="L34">        r.rate(ratingCar, ratingOwner);</span>
+<span class="fc" id="L35">        this.pendingRates.remove(r);</span>
+<span class="fc" id="L36">    }</span>
+
+    void setPos(Point pos) {
+<span class="nc" id="L39">        this.pos = pos;</span>
+<span class="nc" id="L40">    }</span>
+
+    public Client makeCopy() {
+<span class="nc" id="L43">        return new Client(this);</span>
+    }
+
+    public List&lt;Rental&gt; getPendingRates() {
+<span class="fc" id="L47">        return new ArrayList&lt;&gt;(this.pendingRates);</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L53">			return true;</span>
+		}
+
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L57">			return false;</span>
+		}
+
+<span class="nc" id="L60">        Client client = (Client) o;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        return this.pos.equals(client.pos)</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                &amp;&amp; this.pendingRates.equals(client.pendingRates);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L67">        int result = 17;</span>
+<span class="nc" id="L68">        return (int) (31 * result + serialVersionUID);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

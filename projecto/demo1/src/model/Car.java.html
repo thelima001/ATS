@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Car.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Car.java</span></div><h1>Car.java</h1><pre class="source lang-java linenums">package model;
+
+import exceptions.UnknownCarTypeException;
+import utils.Point;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Car implements Serializable {
+    private static final long serialVersionUID = -1292370800088543472L;
+    private final String numberPlate;
+    private final Owner owner;
+
+    private final String brand;
+    private final CarType type;
+    private final double avgSpeed;
+    private double basePrice;
+    private final double gasMileage;
+    private final Point position;
+    private final int fullTankRange;
+
+    private boolean isAvailable;
+
+    private double range;
+    private int rating;
+    private int nRatings;
+
+    private final List&lt;Rental&gt; historic;
+
+<span class="nc" id="L31">    private Car(Car car) {</span>
+<span class="nc" id="L32">        this.numberPlate = car.getNumberPlate();</span>
+<span class="nc" id="L33">        this.owner = car.getOwner();</span>
+<span class="nc" id="L34">        this.brand = car.getBrand();</span>
+<span class="nc" id="L35">        this.type = car.getType();</span>
+<span class="nc" id="L36">        this.avgSpeed = car.getAvgSpeed();</span>
+<span class="nc" id="L37">        this.basePrice = car.getBasePrice();</span>
+<span class="nc" id="L38">        this.gasMileage = car.getGasMileage();</span>
+<span class="nc" id="L39">        this.position = car.getPosition();</span>
+<span class="nc" id="L40">        this.fullTankRange = car.getFullTankRange();</span>
+<span class="nc" id="L41">        this.range = car.getRange();</span>
+<span class="nc" id="L42">        this.rating = car.getRating();</span>
+<span class="nc" id="L43">        this.nRatings = car.getNRatings();</span>
+<span class="nc" id="L44">        this.isAvailable = car.isAvailable();</span>
+<span class="nc" id="L45">        this.historic = new ArrayList&lt;&gt;(car.historic);</span>
+<span class="nc" id="L46">    }</span>
+
+<span class="fc" id="L48">    public enum CarType {</span>
+<span class="fc" id="L49">        ELECTRIC,</span>
+<span class="fc" id="L50">        GAS,</span>
+<span class="fc" id="L51">        HYBRID,</span>
+<span class="fc" id="L52">        ANY;</span>
+
+        public boolean equalsCar(CarType a) {
+<span class="nc bnc" id="L55" title="All 4 branches missed.">            return a == this || a == ANY;</span>
+        }
+
+        public static CarType fromString(String s) throws UnknownCarTypeException {
+<span class="nc bnc" id="L59" title="All 5 branches missed.">            switch (s) {</span>
+                case &quot;Electrico&quot;:
+<span class="nc" id="L61">                    return CarType.ELECTRIC;</span>
+                case &quot;Gasolina&quot;:
+<span class="nc" id="L63">                    return CarType.GAS;</span>
+                case &quot;Hibrido&quot;:
+<span class="nc" id="L65">                    return CarType.HYBRID;</span>
+                case &quot;Todos&quot;:
+<span class="nc" id="L67">                    return CarType.ANY;</span>
+
+                default:
+<span class="nc" id="L70">                	throw new UnknownCarTypeException();</span>
+                }
+        }
+    }
+
+    void setPosition(Point position, double delay) {
+<span class="nc" id="L76">        this.range -= this</span>
+                .position
+<span class="nc" id="L78">                .distanceBetweenPoints(position) * (1 + delay % 0.2);</span>
+<span class="nc" id="L79">    }</span>
+
+    void setBasePrice(double basePrice) {
+<span class="nc" id="L82">        this.basePrice = basePrice;</span>
+<span class="nc" id="L83">    }</span>
+
+    private Owner getOwner() {
+<span class="nc" id="L86">        return this.owner;</span>
+    }
+
+    String getOwnerID() {
+<span class="fc" id="L90">        return this.owner.getEmail();</span>
+    }
+
+    double getAvgSpeed() {
+<span class="fc" id="L94">        return this.avgSpeed;</span>
+    }
+
+    private int getFullTankRange() {
+<span class="fc" id="L98">        return this.fullTankRange;</span>
+    }
+
+    double getBasePrice() {
+<span class="fc" id="L102">        return this.basePrice;</span>
+    }
+
+    private double getGasMileage() {
+<span class="nc" id="L106">        return this.gasMileage;</span>
+    }
+
+    private int getRating() {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        return (this.nRatings == 0)? 100 : (this.rating / this.nRatings);</span>
+    }
+
+    Point getPosition() {
+<span class="fc" id="L114">        return this.position;</span>
+    }
+
+    double getRange() {
+<span class="nc" id="L118">        return this.range;</span>
+    }
+
+    CarType getType() {
+<span class="nc" id="L122">        return this.type;</span>
+    }
+
+    String getNumberPlate() {
+<span class="fc" id="L126">        return this.numberPlate;</span>
+    }
+
+    private int getNRatings() {
+<span class="nc" id="L130">        return this.nRatings;</span>
+    }
+
+    private String getBrand() {
+<span class="nc" id="L134">        return this.brand;</span>
+    }
+
+    boolean isAvailable() {
+<span class="nc" id="L138">        return this.isAvailable;</span>
+    }
+    
+    Car(String numberPlate, Owner owner, CarType type,
+<span class="fc" id="L142">            double avgSpeed, double basePrice, double gasMileage, int range, Point pos, String brand) {</span>
+<span class="fc" id="L143">        this.numberPlate = numberPlate;</span>
+<span class="fc" id="L144">        this.owner = owner;</span>
+<span class="fc" id="L145">        this.type = type;</span>
+<span class="fc" id="L146">        this.avgSpeed = avgSpeed;</span>
+<span class="fc" id="L147">        this.basePrice = basePrice;</span>
+<span class="fc" id="L148">        this.gasMileage = gasMileage;</span>
+<span class="fc" id="L149">        this.fullTankRange = range;</span>
+<span class="fc" id="L150">        this.range = this.fullTankRange;</span>
+<span class="fc" id="L151">        this.brand = brand;</span>
+<span class="fc" id="L152">        this.position = pos;</span>
+<span class="fc" id="L153">        this.rating = 0;</span>
+<span class="fc" id="L154">        this.nRatings = 0;</span>
+<span class="fc" id="L155">        this.isAvailable = true;</span>
+<span class="fc" id="L156">        this.historic = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L157">    }</span>
+
+    void swapState() {
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        this.isAvailable = !this.isAvailable;</span>
+<span class="nc" id="L161">    }</span>
+
+    void refil() {
+<span class="nc" id="L164">        this.range = this.fullTankRange;</span>
+<span class="nc" id="L165">    }</span>
+
+    boolean hasRange(Point dest) {
+<span class="pc bpc" id="L168" title="2 of 4 branches missed.">        return this.range / getFullTankRange() &gt;= 0.1 &amp;&amp; this.position.distanceBetweenPoints(dest) * 1.2 &lt;= this.range;</span>
+    }
+
+    void rate(int rating) {
+<span class="fc" id="L172">        this.nRatings++;</span>
+<span class="fc" id="L173">        this.rating += rating;</span>
+<span class="fc" id="L174">    }</span>
+
+    void rate(int carRating, int ownerRate) {
+<span class="fc" id="L177">        rate(carRating);</span>
+<span class="fc" id="L178">        this.owner.rate(ownerRate);</span>
+<span class="fc" id="L179">    }</span>
+
+    void pendingRental(Rental r) {
+<span class="nc" id="L182">        this.owner.addPendingRental(r);</span>
+<span class="nc" id="L183">    }</span>
+
+    void approvePendingRental(Rental r) {
+<span class="nc" id="L186">        this.owner.accept(r);</span>
+<span class="nc" id="L187">        this.historic.add(r);</span>
+<span class="nc" id="L188">    }</span>
+
+    public Car copy() {
+<span class="nc" id="L191">        return new Car(this);</span>
+    }
+
+    public String warnings() {
+<span class="nc" id="L195">        StringBuilder a = new StringBuilder();</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        if(this.range / getFullTankRange() &lt; 0.15) {</span>
+<span class="nc" id="L197">			a.append(&quot;O carro necessita de ser abastecido\n&quot;);</span>
+		}
+<span class="nc" id="L199">        return a.toString();</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="fc" id="L205">			return true;</span>
+		}
+
+<span class="nc bnc" id="L208" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L209">			return false;</span>
+		}
+
+<span class="nc" id="L212">        Car car = (Car) o;</span>
+<span class="nc bnc" id="L213" title="All 16 branches missed.">        return this.avgSpeed == car.avgSpeed</span>
+                &amp;&amp; this.basePrice == car.basePrice
+                &amp;&amp; this.gasMileage == car.gasMileage
+                &amp;&amp; this.fullTankRange == car.fullTankRange
+                &amp;&amp; this.isAvailable == car.isAvailable
+                &amp;&amp; this.range == car.range
+                &amp;&amp; this.rating == car.rating
+                &amp;&amp; this.nRatings == car.nRatings
+<span class="nc bnc" id="L221" title="All 2 branches missed.">                &amp;&amp; this.numberPlate.equals(car.numberPlate)</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">                &amp;&amp; this.owner.equals(car.owner)</span>
+<span class="nc bnc" id="L223" title="All 4 branches missed.">                &amp;&amp; this.brand.equals(car.brand)</span>
+                &amp;&amp; this.type == car.type
+<span class="nc bnc" id="L225" title="All 2 branches missed.">                &amp;&amp; this.position.equals(car.position)</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">                &amp;&amp; this.historic.equals(car.historic);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L231">        int result = 17;</span>
+<span class="nc" id="L232">        return 31 * result + this.rating;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L237">        return getNumberPlate() + &quot;\n&quot; + String.format(&quot;%.2f&quot;, getRange()) + &quot;\n&quot; + String.format(&quot;%.2f&quot;, getBasePrice()) + &quot;\n&quot; + this.isAvailable + &quot;\n&quot; + getRating();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

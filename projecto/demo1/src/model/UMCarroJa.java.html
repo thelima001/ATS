@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UMCarroJa.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">UMCarroJa.java</span></div><h1>UMCarroJa.java</h1><pre class="source lang-java linenums">package model;
+
+import exceptions.*;
+import utils.Point;
+
+import java.io.*;
+import java.time.LocalDateTime;
+import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class UMCarroJa implements Serializable {
+    private static final long serialVersionUID = 8905150170424120902L;
+    private final Cars cars;
+    private final Users users;
+    private final Rentals rentals;
+
+<span class="nc" id="L22">    public UMCarroJa() {</span>
+<span class="nc" id="L23">        this.cars = new Cars();</span>
+<span class="nc" id="L24">        this.users = new Users();</span>
+<span class="nc" id="L25">        this.rentals = new Rentals();</span>
+<span class="nc" id="L26">    }</span>
+
+    public List&lt;Entry&lt;String, Double&gt;&gt; getBestClients() {
+<span class="nc" id="L29">        return this</span>
+                .users
+<span class="nc" id="L31">                .getClientIDS()</span>
+<span class="nc" id="L32">                .stream()</span>
+<span class="nc" id="L33">                .collect(Collectors</span>
+<span class="nc" id="L34">                        .toMap(Function.identity(),</span>
+<span class="nc" id="L35">                                e -&gt; rentals.getRentalListClient(e)</span>
+<span class="nc" id="L36">                                        .stream()</span>
+<span class="nc" id="L37">                                        .map(Rental::getDistance)</span>
+<span class="nc" id="L38">                                        .reduce(0.0, Double::sum)))</span>
+<span class="nc" id="L39">                .entrySet()</span>
+<span class="nc" id="L40">                .stream()</span>
+<span class="nc" id="L41">                .sorted(Collections</span>
+<span class="nc" id="L42">                        .reverseOrder(Comparator</span>
+<span class="nc" id="L43">                                .comparingDouble(Entry::getValue)))</span>
+<span class="nc" id="L44">                .collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Entry&lt;String, Integer&gt;&gt; getBestClientsTimes() {
+<span class="nc" id="L48">        return this</span>
+                .users
+<span class="nc" id="L50">                .getClientIDS()</span>
+<span class="nc" id="L51">                .stream()</span>
+<span class="nc" id="L52">                .collect(Collectors</span>
+<span class="nc" id="L53">                        .toMap(Function.identity(),</span>
+<span class="nc" id="L54">                                rentals::getRentalListClient))</span>
+<span class="nc" id="L55">                .entrySet()</span>
+<span class="nc" id="L56">                .stream()</span>
+<span class="nc" id="L57">                .sorted((o1, o2) -&gt; {</span>
+<span class="nc" id="L58">                    int r = Integer.compare(o2.getValue().size(), o1.getValue().size());</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                    if(r == 0) {</span>
+<span class="nc" id="L60">						return Double.compare(o2.getValue()</span>
+<span class="nc" id="L61">						                .stream()</span>
+<span class="nc" id="L62">						                .mapToDouble(Rental::getDistance)</span>
+<span class="nc" id="L63">						                .sum(),</span>
+<span class="nc" id="L64">						        o1.getValue()</span>
+<span class="nc" id="L65">						                .stream()</span>
+<span class="nc" id="L66">						                .mapToDouble(Rental::getDistance)</span>
+<span class="nc" id="L67">						                .sum());</span>
+					}
+<span class="nc" id="L69">                    return r;</span>
+                })
+<span class="nc" id="L71">                .map(e -&gt; new AbstractMap.SimpleEntry&lt;&gt;(e.getKey(), e.getValue().size()))</span>
+<span class="nc" id="L72">                .collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Entry&lt;String, Double&gt;&gt; getBestClientsTravel() {
+<span class="nc" id="L76">        return this</span>
+                .users
+<span class="nc" id="L78">                .getClientIDS()</span>
+<span class="nc" id="L79">                .stream()</span>
+<span class="nc" id="L80">                .collect(Collectors</span>
+<span class="nc" id="L81">                        .toMap(Function.identity(),</span>
+<span class="nc" id="L82">                                rentals::getRentalListClient))</span>
+<span class="nc" id="L83">                .entrySet()</span>
+<span class="nc" id="L84">                .stream()</span>
+<span class="nc" id="L85">                .sorted((o1, o2) -&gt; {</span>
+<span class="nc" id="L86">                    int r = Double.compare(o2.getValue()</span>
+<span class="nc" id="L87">                                    .stream()</span>
+<span class="nc" id="L88">                                    .mapToDouble(Rental::getDistance)</span>
+<span class="nc" id="L89">                                    .sum(),</span>
+<span class="nc" id="L90">                            o1.getValue()</span>
+<span class="nc" id="L91">                                    .stream()</span>
+<span class="nc" id="L92">                                    .mapToDouble(Rental::getDistance)</span>
+<span class="nc" id="L93">                                    .sum());</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                    if(r == 0) {</span>
+<span class="nc" id="L95">						return Integer.compare(o2.getValue()</span>
+<span class="nc" id="L96">						                .size(),</span>
+<span class="nc" id="L97">						        o1.getValue()</span>
+<span class="nc" id="L98">						                .size());</span>
+					}
+<span class="nc" id="L100">                    return r;</span>
+                })
+<span class="nc" id="L102">                .map(e -&gt; new AbstractMap.SimpleEntry&lt;&gt;(e.getKey(), e.getValue()</span>
+<span class="nc" id="L103">                        .stream()</span>
+<span class="nc" id="L104">                        .mapToDouble(Rental::getDistance)</span>
+<span class="nc" id="L105">                        .sum()))</span>
+<span class="nc" id="L106">                .collect(Collectors.toList());</span>
+    }
+
+    void rental(String username, Point dest, String preference, Car.CarType a)
+            throws UnknownCompareTypeException, NoCarAvaliableException, InvalidUserException {
+<span class="nc" id="L111">        Client c = (Client) users.getUser(username);</span>
+<span class="nc" id="L112">        Car car = cars.getCar(preference, dest, c.getPos(), a);</span>
+<span class="nc" id="L113">        Rental r = new Rental(car, c, dest);</span>
+<span class="nc" id="L114">        rent(r);</span>
+<span class="nc" id="L115">    }</span>
+
+    public Rental rental(Point dest, double range, Car.CarType a, Client c)
+            throws NoCarAvaliableException {
+<span class="nc" id="L119">        Car car = cars.getCar(dest, range, a);</span>
+<span class="nc" id="L120">        Rental r = new Rental(car, c, dest);</span>
+<span class="nc" id="L121">        car.pendingRental(r);</span>
+<span class="nc" id="L122">        return r;</span>
+    }
+
+    public Rental rental(Point dest, String numberPlate, Client c) throws InvalidCarException, NoCarAvaliableException {
+<span class="nc" id="L126">        Car car = this.cars.searchCar(numberPlate);</span>
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if(car.getPosition().distanceBetweenPoints(dest) &gt; car.getRange()) {</span>
+<span class="nc" id="L129">			throw new NoCarAvaliableException();</span>
+		}
+
+<span class="nc" id="L132">        Rental r = new Rental(car, c, dest);</span>
+<span class="nc" id="L133">        car.pendingRental(r);</span>
+<span class="nc" id="L134">        return r;</span>
+    }
+
+    /** Range a pe. */
+    public Rental rental(Client c, Point dest, double range, Car.CarType a)
+            throws NoCarAvaliableException{
+<span class="nc" id="L140">        Car car = cars.getCar(dest, c.getPos(), range, a);</span>
+<span class="nc" id="L141">        Rental r = new Rental(car, c, dest);</span>
+<span class="nc" id="L142">        car.pendingRental(r);</span>
+<span class="nc" id="L143">        return r;</span>
+    }
+
+    /** MaisPerto e MaisBarato. */
+    public Rental rental(Client c, Point dest, String preference, Car.CarType a)
+            throws UnknownCompareTypeException, NoCarAvaliableException {
+<span class="nc" id="L149">        Car car = cars.getCar(preference, dest, c.getPos(), a);</span>
+<span class="nc" id="L150">        Rental r = new Rental(car, c, dest);</span>
+<span class="nc" id="L151">        car.pendingRental(r);</span>
+<span class="nc" id="L152">        return r;</span>
+    }
+
+    public void rent(Rental r) {
+<span class="nc" id="L156">        rentals.addRental(r);</span>
+<span class="nc" id="L157">        r.rent();</span>
+<span class="nc" id="L158">    }</span>
+
+    public void refuse(Owner a, Rental r) {
+<span class="nc" id="L161">        a.refuse(r);</span>
+<span class="nc" id="L162">    }</span>
+
+    public void addUser(User a) throws UserExistsException {
+<span class="nc" id="L165">        this.users.addUser(a.makeCopy());</span>
+<span class="nc" id="L166">    }</span>
+
+    public void refil(Owner ownerCar, int index) {
+<span class="nc" id="L169">        ownerCar.getCars().get(index).refil();</span>
+<span class="nc" id="L170">    }</span>
+
+    public void setBasePrice(Owner ownerCar, int index, double price) {
+<span class="nc" id="L173">        ownerCar.getCars().get(index).setBasePrice(price);</span>
+<span class="nc" id="L174">    }</span>
+
+    public void swapState(Owner ownerCar, int index) {
+<span class="nc" id="L177">        ownerCar.getCars().get(index).swapState();</span>
+<span class="nc" id="L178">    }</span>
+
+    void addCar(String numberPlate, String ownerID, Car.CarType type, double avgSpeed, double basePrice,
+                double gasMileage, int range, Point pos, String brand) throws CarExistsException, InvalidUserException {
+<span class="nc" id="L182">        Owner o = (Owner) this.users.getUser(ownerID);</span>
+<span class="nc" id="L183">        Car a = new Car(numberPlate, o, type, avgSpeed, basePrice, gasMileage, range, pos, brand);</span>
+<span class="nc" id="L184">        this.cars.addCar(a);</span>
+<span class="nc" id="L185">        o.addCar(a);</span>
+<span class="nc" id="L186">    }</span>
+
+    public void addCar(Owner os, String numberPlate, Car.CarType type, double avgSpeed, double basePrice, double gasMileage, int range, Point pos, String brand) throws CarExistsException, InvalidUserException {
+<span class="nc" id="L189">        Owner o = (Owner) this.users.getUser(os.getEmail());</span>
+<span class="nc" id="L190">        Car a = new Car(numberPlate, o, type, avgSpeed, basePrice, gasMileage, range, pos, brand);</span>
+<span class="nc" id="L191">        this.cars.addCar(a);</span>
+<span class="nc" id="L192">        o.addCar(a);</span>
+<span class="nc" id="L193">    }</span>
+
+    void rate(String s, int rate) throws InvalidUserException, InvalidCarException {
+        try {
+<span class="nc" id="L197">            this.users</span>
+<span class="nc" id="L198">                    .getUser(Integer.parseInt(s) + &quot;@gmail.com&quot;)</span>
+<span class="nc" id="L199">                    .rate(rate);</span>
+        }
+<span class="nc" id="L201">        catch(NumberFormatException ignored) {</span>
+<span class="nc" id="L202">            this.cars</span>
+<span class="nc" id="L203">                    .searchCar(s)</span>
+<span class="nc" id="L204">                    .rate(rate);</span>
+<span class="nc" id="L205">        }</span>
+<span class="nc" id="L206">    }</span>
+
+    public void rate(Client cli, Rental r, int a, int b) {
+<span class="nc" id="L209">        cli.rate(r, a, b);</span>
+<span class="nc" id="L210">    }</span>
+
+    public void rate(Owner own, Rental r, int a) {
+<span class="nc" id="L213">        own.rate(r, a);</span>
+<span class="nc" id="L214">    }</span>
+
+    public User logIn(String username, String passwd) throws InvalidUserException, WrongPasswordExecption {
+<span class="nc" id="L217">        User c = users.getUser(username);</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">        if(!c.getPasswd().equals(passwd)) {</span>
+<span class="nc" id="L219">			throw new WrongPasswordExecption();</span>
+		}
+<span class="nc" id="L221">        return c;</span>
+    }
+
+    public double getTotalBilledCar(Car car, LocalDateTime init, LocalDateTime end) {
+<span class="nc" id="L225">        return this.rentals.getTotalBilledCar(car, init, end);</span>
+    }
+
+    public double getTotalBilledCar(Car car) {
+<span class="nc" id="L229">        return this.rentals.getTotalBilledCar(car);</span>
+    }
+
+    public List&lt;Rental&gt; getRentalListOwner(Owner owner, LocalDateTime init, LocalDateTime end) {
+<span class="nc" id="L233">        return this.rentals.getRentalListOwner(owner, init, end);</span>
+    }
+
+    public List&lt;Rental&gt; getRentalListOwner(Owner owner) {
+<span class="nc" id="L237">        return this.rentals.getRentalListOwner(owner);</span>
+    }
+
+    public List&lt;Rental&gt; getRentalListClient(Client client, LocalDateTime init, LocalDateTime end) {
+<span class="nc" id="L241">        return this.rentals.getRentalListClient(client, init, end);</span>
+    }
+
+    public List&lt;Rental&gt; getRentalListClient(Client client) {
+<span class="nc" id="L245">        return this.rentals.getRentalListClient(client);</span>
+    }
+
+    public void save(String fName) throws IOException {
+
+<span class="nc" id="L250">        try(FileOutputStream a = new FileOutputStream(fName); ObjectOutputStream r = new ObjectOutputStream(a)){</span>
+<span class="nc" id="L251">            r.writeObject(this);</span>
+<span class="nc" id="L252">            r.flush();</span>
+        }
+<span class="nc" id="L254">    }</span>
+
+    public static UMCarroJa read(String fName) throws IOException, ClassNotFoundException {
+
+<span class="nc" id="L258">        try(FileInputStream r = new FileInputStream(fName); ObjectInputStream a = new ObjectInputStream(r); ){</span>
+<span class="nc" id="L259">            return (UMCarroJa) a.readObject();</span>
+        } 
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

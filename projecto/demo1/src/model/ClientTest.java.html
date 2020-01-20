@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">ClientTest.java</span></div><h1>ClientTest.java</h1><pre class="source lang-java linenums">package model;
+
+import model.Car;
+import model.Client;
+import model.Owner;
+import model.Rental;
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import utils.Point;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+<span class="fc" id="L15">class ClientTest {</span>
+<span class="fc" id="L16">    Owner owner =  new Owner(&quot;teste@teste.pt&quot;, &quot;teste&quot;, &quot;teste&quot;, 123456789, &quot;teste&quot;);</span>
+<span class="fc" id="L17">    Point dest = new Point(100.00,100.00);</span>
+<span class="fc" id="L18">    Point pos = new Point(0.0,0.0);</span>
+<span class="fc" id="L19">    Client client = new Client(pos, &quot;k@k.pt&quot;, &quot;k&quot;, &quot;k&quot;, &quot;k&quot;, 123456789);</span>
+<span class="fc" id="L20">    Car car = new Car(&quot;123456789&quot;, owner, Car.CarType.GAS, 50.00, 10.00, 100.00, 5, pos, &quot;KIA&quot;);</span>
+<span class="fc" id="L21">    Rental rent = new Rental(car, client, dest);</span>
+
+    @Test
+    void rate() {
+<span class="fc" id="L25">        client.addPendingRental(rent);</span>
+<span class="fc" id="L26">        client.rate(rent, 1,1);</span>
+<span class="fc" id="L27">        Assert.assertEquals(client.getPendingRates(), (new ArrayList&lt;Rental&gt;()));</span>
+<span class="fc" id="L28">    }</span>
+
+    @Test
+    void addPendingRental() {
+<span class="fc" id="L32">        client.addPendingRental(rent);</span>
+<span class="fc" id="L33">        Assert.assertEquals(client.getPendingRates().contains(rent), true);</span>
+<span class="fc" id="L34">    }</span>
+
+    @Test
+    void getPendingRates() {
+<span class="fc" id="L38">        Assert.assertEquals(client.getPendingRates(), (new ArrayList&lt;Rental&gt;()));</span>
+<span class="fc" id="L39">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

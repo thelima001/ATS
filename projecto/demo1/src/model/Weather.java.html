@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Weather.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Weather.java</span></div><h1>Weather.java</h1><pre class="source lang-java linenums">package model;
+
+import java.time.LocalDateTime;
+import java.util.Random;
+
+<span class="nc" id="L6">class Weather {</span>
+<span class="nc" id="L7">    private Random random = new Random();</span>
+    
+<span class="nc" id="L9">    private static String fall = &quot;Fall&quot;;</span>
+<span class="nc" id="L10">    private static String winter = &quot;Winter&quot;;</span>
+<span class="nc" id="L11">    private static String spring = &quot;Spring&quot;;</span>
+<span class="nc" id="L12">    private static String summer = &quot;Summer&quot;;</span>
+    		
+<span class="nc" id="L14">    private static final String[] seasons = {</span>
+    		winter, winter,
+    		spring, spring, spring,
+    		summer, summer, summer,
+            fall, fall, fall,
+            winter
+    };
+
+    private String getSeason() {
+<span class="nc" id="L23">        return seasons[LocalDateTime.now().getMonthValue()];</span>
+    }
+
+    public double getSeasonDelay() {
+<span class="nc bnc" id="L27" title="All 4 branches missed.">        switch (getSeason()){</span>
+            case &quot;Summer&quot;:
+<span class="nc" id="L29">                return this.random.nextDouble() % 0.1;</span>
+
+            case &quot;Spring&quot;:
+<span class="nc" id="L32">                return this.random.nextDouble() % 0.3;</span>
+
+            case &quot;Fall&quot;:
+<span class="nc" id="L35">                return this.random.nextDouble() % 0.35;</span>
+
+            default:
+<span class="nc" id="L38">                return this.random.nextDouble() % 0.6;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

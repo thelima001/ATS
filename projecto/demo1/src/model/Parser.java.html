@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Parser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Parser.java</span></div><h1>Parser.java</h1><pre class="source lang-java linenums">package model;
+
+import exceptions.*;
+import utils.Point;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Parser {
+    private List&lt;String&gt; file;
+<span class="nc" id="L18">    private static final Logger LOGGER = Logger.getLogger(Parser.class.getName());</span>
+<span class="nc" id="L19">    public Parser() {</span>
+<span class="nc" id="L20">        this.file = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L21">    }</span>
+
+<span class="nc" id="L23">    public Parser(String db, UMCarroJa model) {</span>
+        try {
+<span class="nc" id="L25">            this.file = Files</span>
+<span class="nc" id="L26">                    .readAllLines(Paths.get(db), StandardCharsets.UTF_8)</span>
+<span class="nc" id="L27">                    .stream()</span>
+<span class="nc" id="L28">                    .map(String::trim)</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">                    .filter(s -&gt; !s.startsWith(&quot;--&quot;))</span>
+<span class="nc bnc" id="L30" title="All 4 branches missed.">                    .filter(s -&gt; s.contains(&quot;:&quot;) &amp;&amp; s.contains(&quot;,&quot;))</span>
+<span class="nc" id="L31">                    .map(e -&gt; parseLine(e, model))</span>
+<span class="nc" id="L32">                    .collect(Collectors.toList());</span>
+<span class="nc" id="L33">        } catch (IOException e) {</span>
+<span class="nc" id="L34">            LOGGER.log(Level.SEVERE, &quot;Exception occured:&quot;, e);</span>
+<span class="nc" id="L35">        }</span>
+<span class="nc" id="L36">    }</span>
+
+    private String parseLine(String l, UMCarroJa model){
+<span class="nc" id="L39">        String[] pLine = l.split(&quot;:&quot;);</span>
+<span class="nc" id="L40">        String categoria = pLine[0];</span>
+<span class="nc" id="L41">        String[] content = pLine[1].split(&quot;,&quot;);</span>
+        try {
+<span class="nc bnc" id="L43" title="All 6 branches missed.">            switch (categoria) {</span>
+                case &quot;NovoProp&quot;:
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                    if (content.length != 4) {</span>
+<span class="nc" id="L46">						break;</span>
+					}
+<span class="nc" id="L48">                    model.addUser(new Owner(</span>
+                            content[2],
+                            content[0],
+                            content[3],
+<span class="nc" id="L52">                            Integer.parseInt(content[1]),</span>
+                            content[2]
+                    ));
+<span class="nc" id="L55">                    break;</span>
+                case &quot;NovoCliente&quot;:
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                    if (content.length != 6) {</span>
+<span class="nc" id="L58">						break;</span>
+					}
+<span class="nc" id="L60">                    model.addUser(new Client(</span>
+<span class="nc" id="L61">                            new Point(Double.parseDouble(content[4]), Double.parseDouble(content[5])),</span>
+                            content[2],
+                            content[2],
+                            content[0],
+                            content[3],
+<span class="nc" id="L66">                            Integer.parseInt(content[1])</span>
+                    ));
+<span class="nc" id="L68">                    break;</span>
+                case &quot;NovoCarro&quot;:
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                    if (content.length != 10) {</span>
+<span class="nc" id="L71">                        break;</span>
+                    }
+<span class="nc" id="L73">                    model.addCar(</span>
+                            content[2],
+                            content[3] + &quot;@gmail.com&quot;,
+<span class="nc" id="L76">                            Car.CarType.fromString(content[0]),</span>
+<span class="nc" id="L77">                            Double.parseDouble(content[4]),</span>
+<span class="nc" id="L78">                            Double.parseDouble(content[5]),</span>
+<span class="nc" id="L79">                            Double.parseDouble(content[6]),</span>
+<span class="nc" id="L80">                            Integer.parseInt(content[7]),</span>
+<span class="nc" id="L81">                            new Point(Double.parseDouble(content[8])</span>
+<span class="nc" id="L82">                                    , Double.parseDouble(content[9])),</span>
+                            content[1]
+                    );
+<span class="nc" id="L85">                    break;</span>
+                case &quot;Aluguer&quot;:
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                    if (content.length != 5) {</span>
+<span class="nc" id="L88">						break;</span>
+					}
+                    
+<span class="nc" id="L91">        	    	model.rental(content[0] + &quot;@gmail.com&quot;,</span>
+<span class="nc" id="L92">        	                new Point(Double.parseDouble(content[1])</span>
+<span class="nc" id="L93">        	                        , Double.parseDouble(content[2])),</span>
+        	                content[4], Car
+        	                        .CarType
+<span class="nc" id="L96">        	                        .fromString(content[3]));</span>
+<span class="nc" id="L97">                    break;</span>
+                case &quot;Classificar&quot;:
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                    if (content.length != 2) {</span>
+<span class="nc" id="L100">						break;</span>
+					}
+<span class="nc" id="L102">                    model.rate(content[0], Integer.parseInt(content[1]));</span>
+<span class="nc" id="L103">                    break;</span>
+                    
+                default:
+                	break;
+            }
+        }
+<span class="nc" id="L109">        catch (InvalidUserException</span>
+                | UserExistsException
+                | CarExistsException
+                | UnknownCarTypeException
+                | UnknownCompareTypeException
+                | NoCarAvaliableException
+<span class="nc" id="L115">                | InvalidCarException ignored) {}</span>
+<span class="nc" id="L116">        return l;</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L122">			return true;</span>
+		}
+
+<span class="nc bnc" id="L125" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L126">			return false;</span>
+		}
+
+<span class="nc" id="L129">        Parser parser = (Parser) o;</span>
+<span class="nc" id="L130">        return this.file.equals(parser.file);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

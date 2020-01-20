@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Rental.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Rental.java</span></div><h1>Rental.java</h1><pre class="source lang-java linenums">package model;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import utils.Point;
+import utils.StringBetter;
+
+public class Rental implements Serializable {
+    private static final long serialVersionUID = 7119901023330524504L;
+    private final Client client;
+    private final Car car;
+    private final Point start;
+    private final Point end;
+    private final double expectedPrice;
+    private double realPrice;
+    private final LocalDateTime date;
+    private final double expectedTime;
+    private double realTime;
+    
+<span class="fc" id="L22">    private String tempo = &quot;%.2f Horas&quot;;</span>
+
+<span class="fc" id="L24">    Rental(Car car, Client client, Point dest) {</span>
+<span class="fc" id="L25">        this.client = client;</span>
+<span class="fc" id="L26">        this.car = car;</span>
+<span class="fc" id="L27">        this.start = car.getPosition();</span>
+<span class="fc" id="L28">        this.end = dest;</span>
+<span class="fc" id="L29">        this.expectedPrice = car.getBasePrice() * start.distanceBetweenPoints(dest);</span>
+<span class="fc" id="L30">        this.date = LocalDateTime.now();</span>
+<span class="fc" id="L31">        this.expectedTime = getStart().distanceBetweenPoints(this.end) / this.car.getAvgSpeed();</span>
+<span class="fc" id="L32">    }</span>
+
+    LocalDateTime getDate() {
+<span class="nc" id="L35">        return this.date;</span>
+    }
+
+    private Point getStart() {
+<span class="fc" id="L39">        return this.start;</span>
+    }
+
+    double getDistance() {
+<span class="nc" id="L43">        return getStart().distanceBetweenPoints(getEnd());</span>
+    }
+
+    private Point getEnd() {
+<span class="nc" id="L47">        return this.end;</span>
+    }
+
+    double getPrice() {
+<span class="fc" id="L51">        return this.realPrice;</span>
+    }
+
+    String getCarID() {
+<span class="fc" id="L55">        return this.car.getNumberPlate();</span>
+    }
+
+    String getClientID() {
+<span class="fc" id="L59">        return this.client.getEmail();</span>
+    }
+
+    String getOwnerID() {
+<span class="fc" id="L63">        return this.car.getOwnerID();</span>
+    }
+
+    void rent() {
+<span class="nc" id="L67">        double weather = new Weather().getSeasonDelay();</span>
+<span class="nc" id="L68">        double traffic = new Traffic().getTraficDelay(weather);</span>
+<span class="nc" id="L69">        double delay = weather % 0.5 + traffic % 0.5;</span>
+<span class="nc" id="L70">        this.realTime = this.expectedTime * (1 + delay);</span>
+<span class="nc" id="L71">        this.realPrice = this.expectedPrice * (1 + delay % 0.4);</span>
+<span class="nc" id="L72">        this.client.setPos(this.end);</span>
+<span class="nc" id="L73">        this.car.setPosition(this.end, delay);</span>
+<span class="nc" id="L74">        this.car.approvePendingRental(this);</span>
+<span class="nc" id="L75">        this.client.addPendingRental(this);</span>
+<span class="nc" id="L76">    }</span>
+
+    void rate(int carRate, int ownerRate) {
+<span class="fc" id="L79">        this.car.rate(carRate, ownerRate);</span>
+<span class="fc" id="L80">    }</span>
+
+    void rate(int clientRate) {
+<span class="nc" id="L83">        this.client.rate(clientRate);</span>
+<span class="nc" id="L84">    }</span>
+
+    public String toParsableOwnerRentalString() {
+<span class="nc" id="L87">        StringBuilder str = new StringBuilder();</span>
+<span class="nc" id="L88">        str.append(this.date.format(DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm&quot;))).append(&quot;\n&quot;);</span>
+<span class="nc" id="L89">        str.append(this.car.getNumberPlate()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L90">        str.append(this.client.getEmail()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L91">        str.append(this.start).append(&quot;\n&quot;).append(this.end).append(&quot;\n&quot;);</span>
+<span class="nc" id="L92">        str.append(String.format(&quot;%.2f&quot;, this.realPrice));</span>
+<span class="nc" id="L93">        return str.toString();</span>
+    }
+
+    public String toParsableUserRentalString() {
+<span class="nc" id="L97">        StringBuilder str = new StringBuilder();</span>
+<span class="nc" id="L98">        str.append(this.date.format(DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm&quot;))).append(&quot;\n&quot;);</span>
+<span class="nc" id="L99">        str.append(this.car.getNumberPlate()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L100">        str.append(this.car.getOwnerID()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L101">        str.append(this.start).append(&quot;\n&quot;).append(this.end).append(&quot;\n&quot;);</span>
+<span class="nc" id="L102">        str.append(String.format(&quot;%.2f&quot;, this.realPrice));</span>
+<span class="nc" id="L103">        return str.toString();</span>
+    }
+
+    public String toParsableUserString() {
+<span class="nc" id="L107">        StringBuilder str = new StringBuilder();</span>
+<span class="nc" id="L108">        str.append(this.client.getEmail()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L109">        str.append(this.car.getNumberPlate()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L110">        str.append(this.start).append(&quot;\n&quot;);</span>
+<span class="nc" id="L111">        str.append(this.end).append(&quot;\n&quot;);</span>
+<span class="nc" id="L112">        str.append(String.format(&quot;%.2f&quot;, this.client.getPos().distanceBetweenPoints(this.start)/4)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L113">        str.append(String.format(&quot;%.2f&quot;, this.expectedTime)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L114">        str.append(String.format(&quot;%.2f&quot;, this.expectedPrice)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L115">        str.append(this.client.getRates());</span>
+<span class="nc" id="L116">        return str.toString();</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L121">        StringBuilder str = new StringBuilder();</span>
+<span class="nc" id="L122">        str.append(&quot;Client:        &quot;).append(this.client.getEmail()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L123">        str.append(&quot;Carro:          &quot;).append(this.car.getNumberPlate()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L124">        str.append(&quot;Dono:           &quot;).append(this.car.getOwnerID()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L125">        str.append(&quot;Viagem:         &quot;).append(this.start).append(&quot; -&gt; &quot;).append(this.end).append(&quot;\n&quot;);</span>
+<span class="nc" id="L126">        str.append(&quot;Tempo a pé      &quot;).append(</span>
+<span class="nc" id="L127">                String.format(</span>
+                		tempo,
+<span class="nc" id="L129">                        this.client.getPos().distanceBetweenPoints(this.start)/4)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L130">        str.append(&quot;Tempo Estimado: &quot;).append(String.format(tempo, this.expectedTime)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L131">        str.append(&quot;Custo Estimado: &quot;).append(String.format(&quot;%.2f&quot;, this.expectedPrice));</span>
+<span class="nc" id="L132">        return str.toString();</span>
+    }
+
+    public String toFinalString() {
+<span class="nc" id="L136">        StringBuilder str = new StringBuilder();</span>
+<span class="nc" id="L137">        str.append(&quot;Tempo Total: &quot;).append(String.format(tempo, this.realTime)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L138">        str.append(&quot;Custo Total: &quot;).append(String.format(&quot;%.2f&quot;, this.realPrice)).append(&quot;\n\n&quot;);</span>
+<span class="nc" id="L139">        str.append(new StringBetter(this.car.warnings()).under());</span>
+<span class="nc" id="L140">        return str.toString();</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="fc" id="L146">			return true;</span>
+		}
+
+<span class="nc bnc" id="L149" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L150">			return false;</span>
+		}
+
+<span class="nc" id="L153">        Rental rental = (Rental) o;</span>
+<span class="nc bnc" id="L154" title="All 8 branches missed.">        return this.expectedPrice == rental.expectedPrice</span>
+                &amp;&amp; this.realPrice == rental.realPrice
+                &amp;&amp; this.expectedTime == rental.expectedTime
+                &amp;&amp; this.realTime == rental.realTime
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                &amp;&amp; this.client.equals(rental.client)</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                &amp;&amp; this.car.equals(rental.car)</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">                &amp;&amp; this.start.equals(rental.start)</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">                &amp;&amp; this.end.equals(rental.end)</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">                &amp;&amp; this.date.equals(rental.date);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L167">        int result = 17;</span>
+<span class="nc" id="L168">        return (int) (31 * result + this.realPrice);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cars.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo1$model_in_demo1.exec</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Cars.java</span></div><h1>Cars.java</h1><pre class="source lang-java linenums">package model;
+
+import exceptions.CarExistsException;
+import exceptions.InvalidCarException;
+import exceptions.NoCarAvaliableException;
+import exceptions.UnknownCompareTypeException;
+import utils.Point;
+
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Cars implements Serializable {
+    private static final long serialVersionUID = 2716582249374370739L;
+    private final Map&lt;String, Car&gt; carBase;
+
+<span class="fc" id="L17">    Cars() {</span>
+<span class="fc" id="L18">        this.carBase = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L19">    }</span>
+
+<span class="nc" id="L21">    private Cars(Cars c) {</span>
+<span class="nc" id="L22">        this.carBase = c.carBase</span>
+<span class="nc" id="L23">                .values()</span>
+<span class="nc" id="L24">                .stream()</span>
+<span class="nc" id="L25">                .collect(Collectors</span>
+<span class="nc" id="L26">                        .toMap(Car::getNumberPlate, Car::copy));</span>
+<span class="nc" id="L27">    }</span>
+
+    /**
+     * \brief Adiciona um carro à base de dados.
+     * @param a Carro a adicionar
+     */
+    void addCar(Car a) throws CarExistsException {
+<span class="fc" id="L34">        if(this.carBase</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">                .putIfAbsent(a.getNumberPlate(), a)</span>
+                != null) {
+<span class="nc" id="L37">			throw new CarExistsException();</span>
+		}
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * \brief Procura um carro na base de dados.
+     * @param numberPlate Matricula do carro a procurar
+     * @return Clone do carro, Null se não existir
+     */
+    Car searchCar(String numberPlate) throws InvalidCarException {
+<span class="fc" id="L47">        Car car = this.carBase.get(numberPlate);</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if(car == null) {</span>
+<span class="nc" id="L49">			throw new InvalidCarException();</span>
+		}
+<span class="fc" id="L51">        return car;</span>
+    }
+
+    /**
+     * Clona um objeto da classe Model.Cars
+     * @return Clone do objeto
+     */
+    public Cars copy() {
+<span class="nc" id="L59">        return new Cars(this);</span>
+    }
+
+    /**
+     * Obtem a lista de todos os carros no sistema
+     * de um determinado tipo.
+     * @param b Tipo a procurar
+     * @return Lista dos carros
+     */
+    public List&lt;Car&gt; listOfCarType(Car.CarType b) {
+<span class="nc" id="L69">        return this.carBase</span>
+<span class="nc" id="L70">                .values()</span>
+<span class="nc" id="L71">                .stream()</span>
+<span class="nc" id="L72">                .filter(e -&gt; e.getType().equals(b))</span>
+<span class="nc" id="L73">                .map(Car::copy)</span>
+<span class="nc" id="L74">                .collect(Collectors</span>
+<span class="nc" id="L75">                        .toCollection(ArrayList::new));</span>
+    }
+
+    Car getCar(String compare, Point dest, Point origin, Car.CarType a) throws UnknownCompareTypeException, NoCarAvaliableException {
+        try {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if (&quot;MaisPerto&quot;.equals(compare)) {</span>
+<span class="nc" id="L81">                return this.carBase</span>
+<span class="nc" id="L82">                        .values()</span>
+<span class="nc" id="L83">                        .stream()</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                        .filter(e -&gt; e.getType().equals(a)</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                                &amp;&amp; e.hasRange(dest)</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                                &amp;&amp; e.isAvailable())</span>
+<span class="nc" id="L87">                        .sorted(Comparator.comparingDouble(e -&gt;</span>
+<span class="nc" id="L88">                                e.getPosition()</span>
+<span class="nc" id="L89">                                        .distanceBetweenPoints(origin)))</span>
+<span class="nc" id="L90">                        .collect(Collectors.toList())</span>
+<span class="nc" id="L91">                        .get(0);</span>
+            }
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            if (&quot;MaisBarato&quot;.equals(compare)) {</span>
+<span class="nc" id="L95">                return this.carBase</span>
+<span class="nc" id="L96">                        .values()</span>
+<span class="nc" id="L97">                        .stream()</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                        .filter(e -&gt; e.getType().equals(a)</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                                &amp;&amp; e.hasRange(dest)</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                                &amp;&amp; e.getPosition().distanceBetweenPoints(dest) != 0</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">                                &amp;&amp; e.isAvailable())</span>
+<span class="nc" id="L102">                        .sorted(Comparator.comparingDouble(e -&gt; e.getBasePrice() * e.getPosition()</span>
+<span class="nc" id="L103">                                .distanceBetweenPoints(dest)))</span>
+<span class="nc" id="L104">                        .collect(Collectors.toList())</span>
+<span class="nc" id="L105">                        .get(0);</span>
+            }
+        }
+<span class="nc" id="L108">        catch (IndexOutOfBoundsException ignored) {</span>
+<span class="nc" id="L109">            throw new NoCarAvaliableException();</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">        throw new UnknownCompareTypeException();</span>
+    }
+
+    Car getCar(Point dest, Point origin, double range, Car.CarType a) throws NoCarAvaliableException {
+        try {
+<span class="nc" id="L116">            return this.carBase</span>
+<span class="nc" id="L117">                    .values()</span>
+<span class="nc" id="L118">                    .stream()</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                    .filter(e -&gt; e.getType().equals(a)</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">                            &amp;&amp; e.hasRange(dest)</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">                            &amp;&amp; origin.distanceBetweenPoints(e.getPosition()) &lt;= range</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                            &amp;&amp; e.isAvailable())</span>
+<span class="nc" id="L123">                    .sorted(Comparator.comparingDouble(e -&gt; e.getBasePrice() * origin.distanceBetweenPoints(dest)))</span>
+<span class="nc" id="L124">                    .collect(Collectors.toList())</span>
+<span class="nc" id="L125">                    .get(0);</span>
+        }
+<span class="nc" id="L127">        catch(IndexOutOfBoundsException ignored) {</span>
+<span class="nc" id="L128">            throw new NoCarAvaliableException();</span>
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L135">			return true;</span>
+		}
+
+<span class="nc bnc" id="L138" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L139">			return false;</span>
+		}
+
+<span class="nc" id="L142">        Cars cars = (Cars) o;</span>
+<span class="nc" id="L143">        return this.carBase.equals(cars.carBase);</span>
+    }
+
+    Car getCar(Point dest, double range, Car.CarType a) throws NoCarAvaliableException {
+        try {
+<span class="nc" id="L148">            return this.carBase</span>
+<span class="nc" id="L149">                    .values()</span>
+<span class="nc" id="L150">                    .stream()</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">                    .filter(e -&gt; e.getType().equals(a)</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">                            &amp;&amp; e.hasRange(dest)</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">                            &amp;&amp; e.getRange() &gt;= range</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">                            &amp;&amp; e.isAvailable())</span>
+<span class="nc" id="L155">                    .sorted(Comparator.comparingDouble(e -&gt; e.getBasePrice() * e.getPosition()</span>
+<span class="nc" id="L156">                            .distanceBetweenPoints(dest)))</span>
+<span class="nc" id="L157">                    .collect(Collectors.toList())</span>
+<span class="nc" id="L158">                    .get(0);</span>
+        }
+<span class="nc" id="L160">        catch (IndexOutOfBoundsException ignored) {</span>
+<span class="nc" id="L161">            throw new NoCarAvaliableException();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
